@@ -8,6 +8,27 @@ const {
 const express = require('express');
 const router = express.Router();
 
+/**
+ * @api {post} /api/users Register new user
+ * @apiName RegisterUser
+ * @apiGroup Users
+ * 
+ * @apiParam {String} login Users login.
+ * @apiParam {String} email Users email address.
+ * @apiParam {String} password Users password.
+ *
+ * @apiSuccess {json} User JSON object that contains information about user. There is also a JWT in the response header (x-auth-token).
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *      {
+ *          "_id": "3ab30d7f1b26580016067995",
+ *          "login": "userLogin",
+ *          "email": "user@gmail.com"
+ *      }
+ *
+ * @apiError InvalidParams Invalid params sent.
+ * @apiError UserRegistered The user is already registered.
+ */
 router.post('/', async (req, res) => {
     const {
         error
@@ -28,10 +49,28 @@ router.post('/', async (req, res) => {
         .send(_.pick(user, ['_id', 'login', 'email']));
 });
 
-// router.get('/:id', async (req, res) => {
+/**
+ * @api {get} /api/users/me Get currently logged user
+ * @apiName GetUser
+ * @apiGroup Users
+ * 
+ * @apiHeader {String} x-auth-token Previously generated JWT.
+ *
+ * @apiSuccess {json} User User JSON object that contains information about user.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *      {
+ *          "_id": "3ab30d7f1b26580016067995",
+ *          "login": "userLogin",
+ *          "email": "user@gmail.com"
+ *      }
+ *
+ * @apiError AccessDenied Access denied. No token provided.
+ * @apiError InvalidToken Invalid token.
+ */
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id)
-        .select('-password');
+        .select('-password -__v');
     res.send(user);
 });
 

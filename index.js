@@ -10,6 +10,11 @@ require('./startup/validation')();
 // if (process.env.NODE_ENV === 'production')
 require('./startup/prod')(app);
 
+app.use(express.static(__dirname + '/apidoc'));
+app.get('/api', (req, res) => {
+    res.sendFile(__dirname + '/apidoc/index.html');
+});
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => winston.createLogger({
     format: winston.format.simple(),
