@@ -41,8 +41,8 @@ router.get('/', auth, async (req, res) => {
 });
 
 /**
- * @api {put} /api/tasks/:id Update task in database
- * @apiName UpdateTask
+ * @api {post} /api/tasks/ Add new task to database
+ * @apiName AddTask
  * @apiGroup Tasks
  * 
  * @apiHeader {String} x-auth-token Previously generated JWT.
@@ -51,7 +51,7 @@ router.get('/', auth, async (req, res) => {
  * @apiParam {String} title New task title.
  * @apiParam {String} description New task description.
  *
- * @apiSuccess {json} Task Task that is updated.
+ * @apiSuccess {json} Task Task that was saved.
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *      {

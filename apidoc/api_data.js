@@ -74,6 +74,112 @@ define({ "api": [
     "groupTitle": "Auth"
   },
   {
+    "type": "post",
+    "url": "/api/tasks/",
+    "title": "Add new task to database",
+    "name": "AddTask",
+    "group": "Tasks",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":id",
+            "description": "<p>Task id that the user wants to update.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>New task title.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>New task description.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Task",
+            "description": "<p>Task that was saved.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"New task title\",\n     \"description\": \"New task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": true,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidParams",
+            "description": "<p>Invalid params sent.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TaskNotFound",
+            "description": "<p>The task with the given ID was not found!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidUser",
+            "description": "<p>The task does not belong to this user!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/tasks.js",
+    "groupTitle": "Tasks"
+  },
+  {
     "type": "delete",
     "url": "/api/tasks/:id",
     "title": "Delete task from database",
@@ -298,112 +404,6 @@ define({ "api": [
             "optional": false,
             "field": "InvalidToken",
             "description": "<p>Invalid token.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/tasks.js",
-    "groupTitle": "Tasks"
-  },
-  {
-    "type": "put",
-    "url": "/api/tasks/:id",
-    "title": "Update task in database",
-    "name": "UpdateTask",
-    "group": "Tasks",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "x-auth-token",
-            "description": "<p>Previously generated JWT.</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": ":id",
-            "description": "<p>Task id that the user wants to update.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "title",
-            "description": "<p>New task title.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "description",
-            "description": "<p>New task description.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "json",
-            "optional": false,
-            "field": "Task",
-            "description": "<p>Task that is updated.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"New task title\",\n     \"description\": \"New task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": true,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "InvalidParams",
-            "description": "<p>Invalid params sent.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "AccessDenied",
-            "description": "<p>Access denied. No token provided.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "InvalidToken",
-            "description": "<p>Invalid token.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "TaskNotFound",
-            "description": "<p>The task with the given ID was not found!</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "InvalidUser",
-            "description": "<p>The task does not belong to this user!</p>"
           }
         ]
       }
