@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
+mongoose.Schema.Types.String.checkRequired(v => v != null);
 const Task = mongoose.model('Tasks', new mongoose.Schema({
     title: {
         type: String,
@@ -29,7 +30,7 @@ const Task = mongoose.model('Tasks', new mongoose.Schema({
 function validateTask(task) {
     const schema = {
         title: Joi.string().min(3).max(50).required(),
-        description : Joi.string().max(255).required(),
+        description : Joi.string().allow('').max(255).required(),
         userId: Joi.objectId(),
         createDate: Joi.date(),
         isFinished: Joi.boolean()
