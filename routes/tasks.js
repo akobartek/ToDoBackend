@@ -63,7 +63,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 router.get('/:id', auth, async (req, res) => {
-    let task = await Task.findById(req.params.id).select('_id title description isFinished');
+    let task = await Task.findById(req.params.id);
     if (!task) return res.status(404).send('The task with the given ID was not found!');
     else if (task.userId != req.user._id) return res.status(404).send('The task does not belong to this user!');
     res.send(task);
