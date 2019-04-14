@@ -99,13 +99,6 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": ":id",
-            "description": "<p>Task id that the user wants to update.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
             "field": "title",
             "description": "<p>New task title.</p>"
           },

@@ -47,7 +47,6 @@ router.get('/', auth, async (req, res) => {
  * 
  * @apiHeader {String} x-auth-token Previously generated JWT.
  * 
- * @apiParam {String} :id Task id that the user wants to update.
  * @apiParam {String} title New task title.
  * @apiParam {String} description New task description.
  *
