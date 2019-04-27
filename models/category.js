@@ -2,46 +2,49 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 
 mongoose.Schema.Types.String.checkRequired(v => v != null);
-const Task = mongoose.model(
-  "Tasks",
+const Category = mongoose.model(
+  "Categories",
   new mongoose.Schema({
     title: {
       type: String,
       required: true,
       trim: true,
       minlength: 3,
-      maxlength: 50
+      maxlength: 30
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 120
     },
     userId: {
-      type: mongoose.Types.ObjectId,
-      required: true
-    },
-    categoryId: {
       type: mongoose.Types.ObjectId,
       required: true
     },
     createDate: {
       type: Date,
       default: Date.now
-    },
-    isFinished: Boolean
+    }
   })
 );
 
-function validateTask(task) {
+function validateCategory(category) {
   const schema = {
     title: Joi.string()
       .min(3)
       .max(50)
       .required(),
+    description: Joi.string()
+      .allow("")
+      .max(255)
+      .required(),
     userId: Joi.objectId(),
-    categoryId: Joi.objectId().required(),
-    createDate: Joi.date(),
-    isFinished: Joi.boolean()
+    createDate: Joi.date()
   };
 
-  return Joi.validate(task, schema);
+  return Joi.validate(category, schema);
 }
 
-exports.Task = Task;
-exports.validate = validateTask;
+exports.Category = Category;
+exports.validate = validateCategory;

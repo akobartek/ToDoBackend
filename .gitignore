@@ -41,7 +41,7 @@ yarn-error.log
 uncaughtExceptions.log
 testem.log
 /typings
-.log
+.log/*
 
 # System Files
 .DS_Store
