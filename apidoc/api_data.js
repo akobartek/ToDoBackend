@@ -12,8 +12,8 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "email",
-            "description": "<p>Users email address.</p>"
+            "field": "login",
+            "description": "<p>Users login.</p>"
           },
           {
             "group": "Parameter",
@@ -58,7 +58,7 @@ define({ "api": [
             "group": "Error 4xx",
             "optional": false,
             "field": "UserNotFound",
-            "description": "<p>The user with passed email address was not found.</p>"
+            "description": "<p>The user with passed login address was not found.</p>"
           },
           {
             "group": "Error 4xx",
@@ -75,10 +75,10 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/tasks/",
-    "title": "Add new task to database",
-    "name": "AddTask",
-    "group": "Tasks",
+    "url": "/api/categories/",
+    "title": "Add new category to database",
+    "name": "AddCategory",
+    "group": "Categories",
     "header": {
       "fields": {
         "Header": [
@@ -100,14 +100,14 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "title",
-            "description": "<p>New task title.</p>"
+            "description": "<p>New category title.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "description",
-            "description": "<p>New task description.</p>"
+            "description": "<p>New category description.</p>"
           }
         ]
       }
@@ -119,15 +119,15 @@ define({ "api": [
             "group": "Success 200",
             "type": "json",
             "optional": false,
-            "field": "Task",
-            "description": "<p>Task that was saved.</p>"
+            "field": "Category",
+            "description": "<p>Category that was saved.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"New task title\",\n     \"description\": \"New task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": true,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"New category title\",\n     \"description\": \"New category description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
           "type": "json"
         }
       ]
@@ -156,8 +156,328 @@ define({ "api": [
           {
             "group": "Error 4xx",
             "optional": false,
-            "field": "TaskNotFound",
-            "description": "<p>The task with the given ID was not found!</p>"
+            "field": "InvalidUser",
+            "description": "<p>The category does not belong to this user!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/categories.js",
+    "groupTitle": "Categories"
+  },
+  {
+    "type": "delete",
+    "url": "/api/categories/:id",
+    "title": "Delete category from database",
+    "name": "DeleteCategory",
+    "group": "Categories",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":id",
+            "description": "<p>Category id that the user wants to delete.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Category",
+            "description": "<p>Category that has been deleted.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Category title\",\n     \"description\": \"Category description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "CategoryNotFound",
+            "description": "<p>The category with the given ID was not found!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidUser",
+            "description": "<p>The category does not belong to this user!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/categories.js",
+    "groupTitle": "Categories"
+  },
+  {
+    "type": "get",
+    "url": "/api/category/",
+    "title": "Get all user categories from database",
+    "name": "GetCategories",
+    "group": "Categories",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Categories",
+            "description": "<p>Array of categories.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n[\n     {\n         \"_id\": \"3ab30d7f1b26580016067995\",\n         \"title\": \"Category title\",\n         \"description\": \"Category description\",\n         \"userId\": \"4bc30d7f1b26580016067995\",\n         \"createDate\": \"2019-04-14T12:44:36.963Z\",\n         \"__v\": 0\n     }\n ]",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/categories.js",
+    "groupTitle": "Categories"
+  },
+  {
+    "type": "get",
+    "url": "/api/categories/:id",
+    "title": "Get category from database",
+    "name": "GetCategory",
+    "group": "Categories",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":id",
+            "description": "<p>Category id that the user wants to get.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Category",
+            "description": "<p>Category that the user want.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Category title\",\n     \"description\": \"Category description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "CategoryNotFound",
+            "description": "<p>The category with the given ID was not found!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidUser",
+            "description": "<p>The category does not belong to this user!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/categories.js",
+    "groupTitle": "Categories"
+  },
+  {
+    "type": "post",
+    "url": "/api/tasks/",
+    "title": "Add new task to database",
+    "name": "AddTask",
+    "group": "Tasks",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "categoryId",
+            "description": "<p>Id of category, that task will belong.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>New task title.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Task",
+            "description": "<p>Task that was saved.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"New task title\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"categoryId\": \"5cd30d7f1b26580016067995\",\n     \"isFinished\": true,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidParams",
+            "description": "<p>Invalid params sent.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
           },
           {
             "group": "Error 4xx",
@@ -199,7 +519,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": ":id",
-            "description": "<p>Task id that the user wants to delete.</p>"
+            "description": "<p>Id of task that the user wants to delete.</p>"
           }
         ]
       }
@@ -219,93 +539,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"description\": \"Task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "AccessDenied",
-            "description": "<p>Access denied. No token provided.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "InvalidToken",
-            "description": "<p>Invalid token.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "TaskNotFound",
-            "description": "<p>The task with the given ID was not found!</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "InvalidUser",
-            "description": "<p>The task does not belong to this user!</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/tasks.js",
-    "groupTitle": "Tasks"
-  },
-  {
-    "type": "get",
-    "url": "/api/tasks/:id",
-    "title": "Get task from database",
-    "name": "GetTask",
-    "group": "Tasks",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "x-auth-token",
-            "description": "<p>Previously generated JWT.</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": ":id",
-            "description": "<p>Task id that the user wants to get.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "json",
-            "optional": false,
-            "field": "Task",
-            "description": "<p>Task that the user want.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"description\": \"Task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"categoryId\": \"5cd30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
           "type": "json"
         }
       ]
@@ -347,8 +581,8 @@ define({ "api": [
   {
     "type": "get",
     "url": "/api/tasks/",
-    "title": "Get all user tasks from database",
-    "name": "GetTasks",
+    "title": "Get all user tasks",
+    "name": "GetAllTasks",
     "group": "Tasks",
     "header": {
       "fields": {
@@ -378,7 +612,180 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n[\n     {\n         \"_id\": \"3ab30d7f1b26580016067995\",\n         \"title\": \"Task title\",\n         \"description\": \"Task description\",\n         \"userId\": \"4bc30d7f1b26580016067995\",\n         \"isFinished\": false,\n         \"createDate\": \"2019-04-14T12:44:36.963Z\",\n         \"__v\": 0\n     }\n ]",
+          "content": "HTTP/1.1 200 OK\n[\n     {\n         \"_id\": \"3ab30d7f1b26580016067995\",\n         \"title\": \"Task title\",\n         \"userId\": \"4bc30d7f1b26580016067995\",\n         \"categoryId\": \"5cd30d7f1b26580016067995\",\n         \"isFinished\": false,\n         \"createDate\": \"2019-04-14T12:44:36.963Z\",\n         \"__v\": 0\n     }\n ]",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/tasks.js",
+    "groupTitle": "Tasks"
+  },
+  {
+    "type": "get",
+    "url": "/api/tasks/:categoryId/:taskId",
+    "title": "Get task from database",
+    "name": "GetTask",
+    "group": "Tasks",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":categoryId",
+            "description": "<p>Id of category that the task belong to.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":taskId",
+            "description": "<p>Id of task that the user wants to get.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Task",
+            "description": "<p>Task that the user want.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"categoryId\": \"5cd30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "TaskNotFound",
+            "description": "<p>The task with the given ID was not found!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidUser",
+            "description": "<p>The task does not belong to this user!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidCategory",
+            "description": "<p>The task does not belong to this category!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/tasks.js",
+    "groupTitle": "Tasks"
+  },
+  {
+    "type": "get",
+    "url": "/api/tasks/:categoryId",
+    "title": "Get all user tasks from category",
+    "name": "GetTasksByCategory",
+    "group": "Tasks",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":categoryId",
+            "description": "<p>Id of category, that tasks user want to get.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Tasks",
+            "description": "<p>Array of tasks.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n[\n     {\n         \"_id\": \"3ab30d7f1b26580016067995\",\n         \"title\": \"Task title\",\n         \"userId\": \"4bc30d7f1b26580016067995\",\n         \"categoryId\": \"5cd30d7f1b26580016067995\",\n         \"isFinished\": false,\n         \"createDate\": \"2019-04-14T12:44:36.963Z\",\n         \"__v\": 0\n     }\n ]",
           "type": "json"
         }
       ]
@@ -432,7 +839,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": ":id",
-            "description": "<p>Task id that the user wants to update.</p>"
+            "description": "<p>Id of task that the user wants to update.</p>"
           },
           {
             "group": "Parameter",
@@ -440,13 +847,6 @@ define({ "api": [
             "optional": false,
             "field": "title",
             "description": "<p>New task title.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "description",
-            "description": "<p>New task description.</p>"
           },
           {
             "group": "Parameter",
@@ -473,7 +873,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"description\": \"Task description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Task title\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"categoryId\": \"5cd30d7f1b26580016067995\",\n     \"isFinished\": false,\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
           "type": "json"
         }
       ]
@@ -653,5 +1053,111 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "routes/users.js",
     "groupTitle": "Users"
+  },
+  {
+    "type": "put",
+    "url": "/api/categories/:id",
+    "title": "Update category in database",
+    "name": "UpdateCategory",
+    "group": "categories",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "x-auth-token",
+            "description": "<p>Previously generated JWT.</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":id",
+            "description": "<p>Category id that the user wants to update.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>New category title.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>New category description.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "Category",
+            "description": "<p>Category that is updated.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n {\n     \"_id\": \"3ab30d7f1b26580016067995\",\n     \"title\": \"Category title\",\n     \"description\": \"Category description\",\n     \"userId\": \"4bc30d7f1b26580016067995\",\n     \"createDate\": \"2019-04-14T12:44:36.963Z\",\n     \"__v\": 0\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidParams",
+            "description": "<p>Invalid params sent.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied. No token provided.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidToken",
+            "description": "<p>Invalid token.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "CategoryNotFound",
+            "description": "<p>The category with the given ID was not found!</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "InvalidUser",
+            "description": "<p>The category does not belong to this user!</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/categories.js",
+    "groupTitle": "categories"
   }
 ] });

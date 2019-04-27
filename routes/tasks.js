@@ -39,13 +39,13 @@ router.get("/", auth, async (req, res) => {
 });
 
 /**
- * @api {get} /api/tasks/ Get all user tasks from category
+ * @api {get} /api/tasks/:categoryId Get all user tasks from category
  * @apiName GetTasksByCategory
  * @apiGroup Tasks
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
- * @apiParam {String} :categoryId Identificator of category, that tasks user want to get.
+ * @apiParam {String} :categoryId Id of category, that tasks user want to get.
  *
  * @apiSuccess {json} Tasks Array of tasks.
  * @apiSuccessExample Success-Response:
@@ -83,7 +83,7 @@ router.get("/:categoryId", auth, async (req, res) => {
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
- * @apiParam {String} categoryId Identificator of category, that task will belong.
+ * @apiParam {String} categoryId Id of category, that task will belong.
  * @apiParam {String} title New task title.
  *
  * @apiSuccess {json} Task Task that was saved.
@@ -126,7 +126,7 @@ router.post("/", auth, async (req, res) => {
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
- * @apiParam {String} :id Task id that the user wants to update.
+ * @apiParam {String} :id Id of task that the user wants to update.
  * @apiParam {String} title New task title.
  * @apiParam {Boolean} isFinished New ifFinished value.
  *
@@ -182,7 +182,7 @@ router.put("/:id", auth, async (req, res) => {
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
- * @apiParam {String} :id Task id that the user wants to delete.
+ * @apiParam {String} :id Id of task that the user wants to delete.
  *
  * @apiSuccess {json} Task Task that has been deleted.
  * @apiSuccessExample Success-Response:
@@ -213,14 +213,14 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 /**
- * @api {get} /api/tasks/:id Get task from database
+ * @api {get} /api/tasks/:categoryId/:taskId Get task from database
  * @apiName GetTask
  * @apiGroup Tasks
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
- * @apiParam {String} :categoryId Category id that the task belong to.
- * @apiParam {String} :taskId Task id that the user wants to get.
+ * @apiParam {String} :categoryId Id of category that the task belong to.
+ * @apiParam {String} :taskId Id of task that the user wants to get.
  *
  * @apiSuccess {json} Task Task that the user want.
  * @apiSuccessExample Success-Response:
