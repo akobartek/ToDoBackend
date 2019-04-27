@@ -81,7 +81,7 @@ router.post("/", auth, async (req, res) => {
 /**
  * @api {put} /api/categories/:id Update category in database
  * @apiName UpdateCategory
- * @apiGroup categories
+ * @apiGroup Categories
  *
  * @apiHeader {String} x-auth-token Previously generated JWT.
  *
