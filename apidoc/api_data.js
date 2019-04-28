@@ -254,7 +254,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/category/",
+    "url": "/api/categories/",
     "title": "Get all user categories from database",
     "name": "GetCategories",
     "group": "Categories",

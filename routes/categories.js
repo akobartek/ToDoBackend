@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 /**
- * @api {get} /api/category/ Get all user categories from database
+ * @api {get} /api/categories/ Get all user categories from database
  * @apiName GetCategories
  * @apiGroup Categories
  *
