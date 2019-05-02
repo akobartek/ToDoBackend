@@ -169,6 +169,12 @@ router.delete("/:id", auth, async (req, res) => {
   else if (category.userId != req.user._id)
     return res.status(404).send("The category does not belong to this user!");
   category = await Category.findByIdAndRemove(req.params.id);
+  await Task.deleteMany(
+    {
+      categoryId: req.params.id
+    },
+    (err, _) => console.log(err)
+  );
   res.send(category);
 });
 
